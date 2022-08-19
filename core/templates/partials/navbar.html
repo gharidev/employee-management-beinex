@@ -1,0 +1,36 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'core:employee-list' %}">Employee Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                {% if not user.is_authenticated %}
+                {% url 'core:login' as login %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == login %}active{% endif %}" aria-current="page"
+                        href="{{login}}">Login</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    {% url 'core:employee-list' as employee_list %}
+                    <a class="nav-link {% if request.path == employee_list %}active{%endif%}" aria-current="page"
+                        href="{% url 'core:employee-list' %}">Employee List</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle btn btn-primary text-white rounded-pill" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="https://avatars.dicebear.com/api/initials/{{user.get_full_name}}.svg" alt=""
+                            class="navbar-avatar rounded-circle me-1"><small>{{ user.get_full_name }}</small>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'core:logout' %}">Logout</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
