@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ['true', '1', 't']
 
 ALLOWED_HOSTS = []
 
@@ -140,6 +140,20 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = reverse_lazy('core:login')
 LOGIN_REDIRECT_URL = reverse_lazy('core:employee-list')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
 
 
 django_on_heroku.settings(locals())
